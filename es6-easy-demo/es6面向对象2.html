@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script>
+    class User{
+      constructor(name, pass){
+        this.name=name;
+        this.pass=pass;
+      }
+
+      login(){
+        alert('成功');
+      }
+    }
+
+    class VIPUser extends User{
+      constructor(name, pass, level){
+        super(name, pass);
+
+        this.level=level;
+      }
+
+      download(){
+        alert('下载');
+      }
+    }
+
+
+    let v=new VIPUser('blue', '123456', 8);
+
+    v.login();
+    v.download();
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

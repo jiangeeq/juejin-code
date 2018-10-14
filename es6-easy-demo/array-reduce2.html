@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script>
+    let arr=[12, 5, 8, 99, 27, 24, 30, 13];
+
+    let result=arr.reduce((tmp, item, index)=>{
+      if(index<arr.length-1){
+        return tmp+item;
+      }else{
+        return (tmp+item)/arr.length;
+      }
+    });
+
+    alert(result);
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>
