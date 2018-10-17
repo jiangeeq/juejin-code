@@ -1,4 +1,4 @@
-package com.imooc.example.order;
+package com.jls.example.order;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
