@@ -41,6 +41,8 @@ public class CustomerService {
         Customer customer = customerRepository.findOne(dto.getCustomerId());
         if (customer.getDeposit() < dto.getAmount()) {
             LOG.info("余额不足");
+            dto.setStatus("NOT_ENOUGH_DEPOSIT");
+            jmsTemplate.convertAndSend("order:ticket_error",dto);
             return;
         }
 

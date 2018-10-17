@@ -18,5 +18,5 @@ public interface OrderClient extends IOrderService {
     OrderDTO getMyOrder(@PathVariable(name = "id") Long id);
 
     @PostMapping("")
-    OrderDTO create(@RequestBody OrderDTO dto);
+    void create(@RequestBody OrderDTO dto);
 }

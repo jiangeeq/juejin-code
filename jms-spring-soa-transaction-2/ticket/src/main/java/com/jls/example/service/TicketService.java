@@ -1,6 +1,5 @@
 package com.jls.example.service;
 
-import ch.qos.logback.core.net.JMSAppenderBase;
 import com.jls.example.dto.OrderDTO;
 import com.jls.example.dao.TicketRepository;
 import com.jls.example.domain.Ticket;
@@ -30,13 +29,13 @@ public class TicketService {
         int lockCount = ticketRepository.lockTicket(dto.getCustomerId(), dto.getTicketNum());
         if (lockCount == 1) {
             dto.setStatus("TICKET_LOCKED");
-            jmsTemplate.convertAndSend("order:locked", dto);
+            jmsTemplate.convertAndSend("order:locked {}", dto);
         } else {
-
+            dto.setStatus("TICKET_LOCK_FAIL");
+            jmsTemplate.convertAndSend("order:fail {}", dto);
         }
     }
 
-    @Transactional
     @JmsListener(destination = "order:ticket_move", containerFactory = "msgFactory")
     public void handleTicketMove(OrderDTO dto) {
         LOG.info("get new order for ticket move:{}", dto);
@@ -46,7 +45,21 @@ public class TicketService {
             LOG.warn("ticket already moved:{}", dto);
         }
         dto.setStatus("TICKED_MOVED");
-        jmsTemplate.convertAndSend("order:finish", dto);
+        jmsTemplate.convertAndSend("order:finish {}", dto);
+    }
+
+    @JmsListener(destination = "order:ticket_error", containerFactory = "msgFactory")
+    public void handleTicketUnLock(OrderDTO dto) {
+        int count = ticketRepository.unLockTicket(dto.getCustomerId(), dto.getTicketNum());
+        if (count == 0) {
+            LOG.info("ticker already unlocked: {} ", dto);
+        }
+        count = ticketRepository.unMoveTicket(dto.getCustomerId(), dto.getTicketNum());
+        if (count == 0) {
+            LOG.info("ticket already unmoved, or not moved: {}", dto);
+        }
+
+        jmsTemplate.convertAndSend("order:fail {}", dto);
     }
 
     @Transactional
