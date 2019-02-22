@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration
+        xmlns="http://ch.qos.logback/xml/ns/logback"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback https://raw.githubusercontent.com/enricopulatzo/logback-XSD/master/src/main/xsd/logback.xsd">
+
+    <property name="PROJECT" value="ilog"/>
+    <property name="ROOT" value="logs/${PROJECT}/"/>
+    <property name="FILE_SIZE" value="50MB"/>
+    <property name="MAX_HISTORY" value="30"/>
+    <timestamp key="DATETIME" datePattern="yyyy-MM-dd HH:mm:ss"/>
+    <!-- 控制台打印 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>utf-8</charset>
+            <pattern>[%-5level] %d{${DATETIME}} [%thread] %logger{36} - %m%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- Logger 根目录 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
