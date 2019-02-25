@@ -1,6 +1,6 @@
 package com.example.websocket;
 
-import com.example.websocket.controller.BulletinWebSocket;
+import com.example.websocket.socket.BulletinWebSocket;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

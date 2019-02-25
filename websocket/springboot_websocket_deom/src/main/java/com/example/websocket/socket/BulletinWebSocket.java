@@ -1,6 +1,9 @@
-package com.example.websocket.controller;
+package com.example.websocket.socket;
 
+import com.alibaba.fastjson.JSONObject;
+import com.example.websocket.domain.Bulletin;
 import com.example.websocket.service.BulletinService;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -25,6 +28,7 @@ public class BulletinWebSocket {
     private static final Logger LOGGER = LoggerFactory.getLogger(BulletinWebSocket.class);
 
     private static ApplicationContext applicationContext;
+
     public static void setApplicationContext(ApplicationContext context) {
         applicationContext = context;
     }
@@ -32,6 +36,7 @@ public class BulletinWebSocket {
     public BulletinWebSocket() {
         LOGGER.info("BulletinWebSocket init ");
     }
+
     // concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
     private static CopyOnWriteArraySet<BulletinWebSocket> BULLETIN_WEBSOCKETS = new CopyOnWriteArraySet<BulletinWebSocket>();
     // 与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -39,14 +44,17 @@ public class BulletinWebSocket {
 
     /**
      * 连接建立成功调用的方法
-     * */
+     */
     @OnOpen
     public void onOpen(Session session) throws IOException {
         this.session = session;
         // 加入set中
         BULLETIN_WEBSOCKETS.add(this);
-        // 新登录用户广播通知
-        this.session.getBasicRemote().sendText(applicationContext.getBean(BulletinService.class).getBulletin()+"-"+new Date());
+        Bulletin bulletin = applicationContext.getBean(BulletinService.class).getMyUnReadLastBulletin(123);
+        if (bulletin != null) {
+            // 新登录用户广播通知
+            this.session.getBasicRemote().sendText(JSONObject.toJSONString(bulletin));
+        }
         LOGGER.info("有新连接加入{}！当前在线人数为{}", session, getOnlineCount());
     }
 
@@ -76,14 +84,15 @@ public class BulletinWebSocket {
     /**
      * 这个方法与上面几个方法不一样。没有用注解，是根据自己需要添加的方法。
      * 因为使用了Scheduled定时任务，所以方法不是有参数
+     *
      * @throws Exception
      */
-    @Scheduled(cron = "0/2 * * * * ?")
-    public void sendMessage() throws IOException {
+//    @Scheduled(cron = "0/2 * * * * ?")
+    public void sendMessage(Bulletin bulletin) {
         // 所有在线用户广播通知
         BULLETIN_WEBSOCKETS.forEach(socket -> {
             try {
-                socket.session.getBasicRemote().sendText("定时："+applicationContext.getBean(BulletinService.class).getBulletin()+"-"+new Date());
+                socket.session.getBasicRemote().sendText(JSONObject.toJSONString(bulletin));
             } catch (IOException e) {
                 e.printStackTrace();
             }
