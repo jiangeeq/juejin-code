@@ -7,6 +7,7 @@ import java.util.Date;
 /**
  * Created by jiangpeng on 2019/2/25.
  * @Id @Id  使用联合主键时，bean类必须序列化
+ * @IdClass  使用联合主键时
  */
 @Entity
 @Table(name = "bulletin_user")
