@@ -5,13 +5,15 @@ function Cart(props) {
     <table>
       <tbody>
         {props.data.map(d => (
+          // 循环<tr>单元行
           <tr key={d.text}>
             <td>{d.text}</td>
             <td>
               <button>-</button>
-              {d.count}
+              {d.count}  {/*数量显示*/}
               <button onClick={() => props.addCount(d)}>+</button>
             </td>
+            {/*金额计算*/}
             <td>￥{d.price * d.count}</td>
           </tr>
         ))}
@@ -20,20 +22,22 @@ function Cart(props) {
   );
 }
 
+// 导出CartSample 组件
 export default class CartSample extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      // 初始化商品
       goods: [
         { id: 1, text: "蒋老湿精品图书-十分钟学编程", price: 100 },
         { id: 2, text: "蒋老湿精品图书-轻松学Java", price: 33 },
-        { id: 2, text: "蒋老湿精品图书-轻松学React", price: 66 }
+        { id: 3, text: "蒋老湿精品图书-轻松学React", price: 66 }
 
       ],
-      text: "", // 商品名
-      cart: [],
-      history: [] // 时间旅行
+      text: "", // 选择的商品名
+      cart: [],  // 购物车
+      history: [] // 历史操作
     };
 
     // 回调写法1
@@ -42,8 +46,10 @@ export default class CartSample extends Component {
   //   写法2
   addGood = () => {
     this.setState(prevState => ({
-      goods: [...prevState.goods, { id: 3, text: prevState.text, price: 666 }]
+      goods: [...prevState.goods, { id: prevState.id, text: prevState.text, price: prevState.price }]
     }));
+
+    console.log('addGood: '+ this.state.prevState);
   };
 
   textChange = e => {
@@ -57,6 +63,7 @@ export default class CartSample extends Component {
     const newCart = [...this.state.cart];
     // 查询商品对应购物项是否存在
     const idx = newCart.findIndex(c => c.text === good.text);
+    // 存在则取出
     const item = newCart[idx];
 
     if (item) {
@@ -76,7 +83,7 @@ export default class CartSample extends Component {
     this.setState({ cart: newCart, history: [...this.state.history, newCart] });
   };
 
-  //   时间旅行
+  // 历史操作
   go(his) {
     this.setState({
       cart: his
@@ -94,7 +101,6 @@ export default class CartSample extends Component {
     ));
     return (
       <div>
-        {/* 条件语句 */}
         {title}
         {/* 添加商品 */}
         <div>
@@ -112,8 +118,10 @@ export default class CartSample extends Component {
         {/* 传递函数用于子组件和父组件交互 */}
         <Cart data={this.state.cart} addCount={this.addCount} />
 
-        {/* 时光机 */}
-        {this.state.history.length > 0 ? <p>时间旅行</p> : null}
+        {this.state.history.length > 0 ? <p>历史操作</p> : null}
+        {/* 回退到最初状态 */}
+        {this.state.history.length > 0 ? <button key='-1' onClick={ ()=>this.setState({cart:[]}) } >0</button> : null}
+        {/* 回退到每一步操作时的状态 */}
         {this.state.history.map((his, i) => (
           <button key={i} onClick={() => this.go(his)}>
             {i + 1}
