@@ -9,12 +9,15 @@ import ContextSample from './components/ContextSample';
 import ButtonTest from'./components/ButtonTest.js';
 import CommentVs from'./components/CommentVs.js';
 import PureComponentTest from './components/PureComponentTest.js';
-
+import KFormSample from './components/KFormSample'
 
 // ReactDOM.render(<h1>React真酷</h1>, document.querySelector('#root'))
 // ReactDOM.render(<App/>, document.querySelector('#root'))
 // ReactDOM.render(<CommentList/>, document.querySelector('#root'))
-ReactDOM.render(<Composition/>, document.querySelector('#root'))
+
+ReactDOM.render(<KFormSample/>, document.querySelector('#root'))
+
+// ReactDOM.render(<Composition/>, document.querySelector('#root'))
 // ReactDOM.render(<Hoc stage="React" />, document.querySelector('#root'))
 // ReactDOM.render(<ContextSample />, document.querySelector('#root'))
 // ReactDOM.render(<CommentVs/>, document.querySelector('#root'))
