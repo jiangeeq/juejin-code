@@ -168,7 +168,7 @@ class Express extends React.Component {
                     reject(err);
                 },
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "APPCODE 176849204524481c97ef3a8782beb682")
+                    xhr.setRequestHeader("Authorization", "APPCODE f3a8782beb682")
                 }
             });
         });
