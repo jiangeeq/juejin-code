@@ -1,0 +1,27 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "蒋老湿首页",
+    "navigationBarTextStyle":"black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "首页",
+      "iconPath": "images/社区中心.png",
+      "selectedIconPath": "images/社区中心.png"
+    },{
+      "pagePath":"pages/logs/logs",
+      "text":"日志",
+      "iconPath":"images/tab_ico_daily_s.png",
+      "selectedIconPath":"images/tab_ico_daily_s.png"
+    }]
+  }
+}
