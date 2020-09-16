@@ -31,8 +31,8 @@ Page({
     this.getbooks()
     // this.initUserInfo()
   },
-  getbooks() {
-    wx.cloud.database().collection('bookdb').get({
+   getbooks() {
+     wx.cloud.database().collection('bookdb').get({
       success(res) {
         console.log('获取到图书数据', res)
         this.setData({

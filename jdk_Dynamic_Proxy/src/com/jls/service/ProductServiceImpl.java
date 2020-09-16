@@ -1,4 +1,4 @@
-package service;
+package com.jls.service;
 
 /**
  * @author jiangpeng

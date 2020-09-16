@@ -1,0 +1,8 @@
+<!--index.wxml-->
+<view class="container">
+  	<view>
+		<view wx:for="{{books}}" wx:key="*this">
+			<view>{{item.title}}</view>
+		</view>
+	</view>
+</view>

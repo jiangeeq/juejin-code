@@ -1,5 +1,7 @@
-import service.ProductService;
-import service.ProductServiceImpl;
+package com.jls;
+
+import com.jls.service.ProductService;
+import com.jls.service.ProductServiceImpl;
 
 /**
  * @author jiangpeng
@@ -8,7 +10,7 @@ import service.ProductServiceImpl;
 public class CustomClient {
     public static void main(String[] args) throws IllegalAccessException {
         ProductService productService = new ProductServiceImpl();
-        ProductService proxy = (ProductService) new MyInvocationHandler().getInstance(productService);
+        ProductService proxy = (ProductService) new CustomInfvocationdHandler().getInstance(productService);
         proxy.addProduct("apple");
     }
 }

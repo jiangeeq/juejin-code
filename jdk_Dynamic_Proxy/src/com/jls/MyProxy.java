@@ -1,9 +1,15 @@
+package com.jls;
+
+import sun.misc.ProxyGenerator;
+
 import javax.tools.JavaCompiler;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
@@ -23,11 +29,11 @@ public class MyProxy {
     /**
      * 生成的代理类的名称，这里为了方便就不生成了，直接字符串简单定义一下
      */
-    private static final String SRC_NAME = "$GuituProxy0";
+    private static final String SRC_NAME = "$MyProxy0";
     /**
      * 生成的代理类的包名，同样为了测试方便直接定义成字符串
      */
-    private static final String PACKAGE_NAME = "com.guitu18.study.proxy.guitu";
+    private static final String PACKAGE_NAME = "com.jsl";
 
     /**
      * 生成并返回一个代理对象
@@ -113,7 +119,7 @@ public class MyProxy {
                         // 拼接方法形参，类型 名称
                         paramStr.append(parameter.getType().getName() + " " + parameter.getName());
                         // 拼接方法形参类型，供反射调用
-                        paramTypeStr.append(parameter.getType().getName()).append(".class");
+                        paramTypeStr.append(parameter.getType().getName()).append(".java");
                         // 拼接方法形参名称，供反射调用
                         paramNameStr.append(parameter.getName());
                         if (parameters.length > 1 && i < parameters.length - 2) {
